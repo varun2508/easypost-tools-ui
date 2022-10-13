@@ -30,7 +30,7 @@ services:
       - DB_DATABASE=${MARIADB_DATABASE}
       - DB_HOST=easypost-tools-db
       - VIRTUAL_HOST=easyposttools.anddrop.co
-      - VIRTUAL_PORT=9000
+      - VIRTUAL_PORT=80
       - LETSENCRYPT_HOST=easyposttools.anddrop.co
       - LETSENCRYPT_EMAIL=varun@advoc8.com
     deploy:
@@ -47,10 +47,6 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    labels:
-      - "traefik.http.routers.easyposttools.rule=Host(`easyposttools.anddrop.co`)"
-      - "traefik.http.routers.easyposttools.tls=true"
-      - "traefik.http.routers.easyposttools.tls.certresolver=letsencrypt"
   easypost-tools-db:
     deploy:
       resources:
