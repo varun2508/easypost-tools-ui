@@ -30,6 +30,7 @@ services:
       - DB_DATABASE=${MARIADB_DATABASE}
       - DB_HOST=easypost-tools-db
       - VIRTUAL_HOST=easyposttools.anddrop.co
+      - VIRTUAL_PORT=9000
       - LETSENCRYPT_HOST=easyposttools.anddrop.co
       - LETSENCRYPT_EMAIL=varun@advoc8.com
     deploy:
