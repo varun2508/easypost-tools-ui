@@ -3,15 +3,15 @@ services:
   easypost-tools-ui:
     build: .
     restart: always
-    env_file:
-      - src/.env
     networks:
       - easypost-tools-ui
       - traefik
     labels:
       - traefik.enable=true
     depends_on:
-       - easypost-tools-db
+      - easypost-tools-db
+    volumes:
+      - ./src:/var/www/html/
   easypost-tools-db:
     image: 'mariadb:10.8.2'
     restart: always

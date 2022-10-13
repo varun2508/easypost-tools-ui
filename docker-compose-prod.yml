@@ -1,6 +1,37 @@
 version: "3.8"
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx/vhost.d
+      - /etc/nginx/certs
+      - /usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - advoc8-easypost-tool
+  # nginx-proxy-acme:
+  #   image: nginxproxy/acme-companion
+  #   environment:
+  #     - DEFAULT_EMAIL=fanel@eligence.dev
+  #   volumes_from:
+  #     - nginx-proxy:rw
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   networks:
+  #     - advoc8-easypost-tool
   easypost-tools-ui:
+    environment:
+      - XWIKI_VERSION=${XWIKI_VERSION}
+      - DB_USER=${MARIADB_USER}
+      - DB_PASSWORD=${MARIADB_PASSWORD}
+      - DB_DATABASE=${MARIADB_DATABASE}
+      - DB_HOST=easypost-tools-db
+      - VIRTUAL_HOST=easyposttools.anddrop.co
+      - LETSENCRYPT_HOST=easyposttools.anddrop.co
+      - LETSENCRYPT_EMAIL=varun@advoc8.com
     deploy:
       replicas: 2
       resources:
@@ -16,12 +47,9 @@ services:
       timeout: 10s
       retries: 3
     labels:
-      - "traefik.http.routers.easyposttools.rule=Host(`easyposttools.com`, `www.easyposttools.com`)"
+      - "traefik.http.routers.easyposttools.rule=Host(`easyposttools.anddrop.co`)"
       - "traefik.http.routers.easyposttools.tls=true"
       - "traefik.http.routers.easyposttools.tls.certresolver=letsencrypt"
-    volumes:
-      - ./src/storage/logs:/var/www/html/storage/logs
-      - ./src/storage/app/public:/var/www/html/storage/app/public
   easypost-tools-db:
     deploy:
       resources:
