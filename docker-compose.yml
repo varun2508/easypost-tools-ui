@@ -4,8 +4,7 @@ services:
     build: .
     restart: always
     networks:
-      - easypost-tools-ui
-      - traefik
+      - advoc8-easypost-tool
     labels:
       - traefik.enable=true
     depends_on:
@@ -20,14 +19,12 @@ services:
     env_file:
       - .env
     networks:
-      - easypost-tools-ui
+      - advoc8-easypost-tool
 
 volumes:
   database-data:
     driver: local
 
 networks:
-  traefik:
-    name: traefik
-  easypost-tools-ui:
-    name: easypost-tools-ui
+  advoc8-easypost-tool:
+    name: advoc8-easypost-tool
