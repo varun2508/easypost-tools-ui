@@ -12,16 +12,16 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - advoc8-easypost-tool
-  # nginx-proxy-acme:
-  #   image: nginxproxy/acme-companion
-  #   environment:
-  #     - DEFAULT_EMAIL=fanel@eligence.dev
-  #   volumes_from:
-  #     - nginx-proxy:rw
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock:ro
-  #   networks:
-  #     - advoc8-easypost-tool
+  nginx-proxy-acme:
+    image: nginxproxy/acme-companion
+    environment:
+      - DEFAULT_EMAIL=varun@advoc8.com
+    volumes_from:
+      - nginx-proxy:rw
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - advoc8-easypost-tool
   easypost-tools-ui:
     environment:
       - XWIKI_VERSION=${XWIKI_VERSION}
